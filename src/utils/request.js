@@ -7,7 +7,7 @@ import router from '@/router';
 // create an axios instance
 const service = axios.create({
   // url = base url + request url
-  baseURL: 'http://localhost:6771',
+  baseURL: process.env.VUE_APP_API,
   // headers:{'Content-Type':'application/x-www-form-urlencoded'},
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 60000, // request timeout

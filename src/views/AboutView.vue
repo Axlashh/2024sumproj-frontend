@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4">
-    <el-button>Default</el-button>
+    <el-button @click="ooo">Default</el-button>
     <el-button type="primary">Primary</el-button>
     <el-button type="success">Success</el-button>
     <el-button type="info">Info</el-button>
@@ -35,6 +35,11 @@ export default {
   data() {
     return {
       input: ''
+    }
+  },
+  methods: {
+    ooo() {
+      console.log("123123")
     }
   }
 }

@@ -108,7 +108,6 @@
             type="text"
             tabindex="1"
             autocomplete="on"
-            :prefix-icon="Search"
           >
             <template #prefix>
               <el-icon><UserFilled /></el-icon>
@@ -143,7 +142,7 @@
           :loading="loading"
           type="primary"
           style="width:47.5%;margin-bottom:30px;"
-          @click.native.prevent="handleLogin"
+          @click="handleLogin"
         >
           {{ '登录' }}
         </el-button>

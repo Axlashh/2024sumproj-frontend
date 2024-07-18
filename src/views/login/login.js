@@ -202,11 +202,15 @@ export default {
       }
     },
     handleLogin() {
+      console.log("555")
       this.$refs.loginForm.validate(valid => {
+        console.log("111")
         if (valid) {
+          console.log("222")
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(res => {
+              console.log("asddas")
                 this.$router.push({
                   path: '/dashboard' || '/',
                   query: this.otherQuery
