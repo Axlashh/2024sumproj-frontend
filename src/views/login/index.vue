@@ -26,6 +26,9 @@
         </h3>
       </div>
 
+      <!-- 账号注册界面 -->
+
+
       <!-- 手机号和忘记密码通用的三个输入框 -->
       <div v-if="webType == 'forgetPassword' || webType == 'phoneLogin'">
         <el-form-item prop="phone">
