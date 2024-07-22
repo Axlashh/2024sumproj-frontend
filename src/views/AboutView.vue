@@ -1,7 +1,7 @@
 <template>
   <div class="mb-4">
     <el-button @click="ooo">Default</el-button>
-    <el-button type="primary">Primary</el-button>
+    <el-button @click="kkk" type="primary">Primary</el-button>
     <el-button type="success">Success</el-button>
     <el-button type="info">Info</el-button>
     <el-button type="warning">Warning</el-button>
@@ -32,6 +32,7 @@
 
 <script>
 import {qwe} from "@/api/user";
+import store from "@/store";
 
 export default {
   data() {
@@ -44,6 +45,10 @@ export default {
       qwe().then(res => {
         console.log("222")
       })
+    },
+    kkk() {
+      this.$store.dispatch('user/resetToken');
+      console.log(store.getters.token)
     }
   }
 }
