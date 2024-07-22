@@ -1,4 +1,5 @@
 import { resetPassword } from '@/api/login'
+
 // import { queryConfigByName } from '@/api/config'
 
 export default {
@@ -17,7 +18,7 @@ export default {
         callback(new Error('请输入6-18位密码'))
       } else if (score === 28) {
         callback(new Error(
-          '您的密码过于简单，至少在数字、大写字母、小写字母、特殊符号包含两种！'))
+            '您的密码过于简单，至少在数字、大写字母、小写字母、特殊符号包含两种！'))
       } else {
         callback()
       }
@@ -36,6 +37,7 @@ export default {
         callback(new Error('手机号格式错误！'))
       }
     }
+
     return {
       codeUrl: null,
       icpNo: '',
@@ -47,6 +49,15 @@ export default {
         newPassword: '',
         secondPassword: '',
         imageCaptcha: '',
+        email: '',
+        identity: '',
+        idCardNumber: '',
+        gender: '',
+        title: '',
+        name: '',
+        department: '',
+        staffId: '',
+        description: '',
         uuid: null
       },
       loginRules: {
@@ -104,9 +115,19 @@ export default {
       getCaptcha: '获取验证码',
       getCaptchaDisable: false,
       captchaDisable: true,
-      identifyCode: ''
+      identifyCode: '',
+      charaValue:'',
+      charaOptions:[
+        {label:'医生',value:1},
+        {label:'患者',value:2},
+      ],
+      gender:[
+        {label:'男',value:1},
+        {label:'女',value:2},
+      ]
     }
   },
+
   watch: {
     $route: {
       handler: function(route) {
@@ -158,31 +179,31 @@ export default {
       if (!this.loginForm.newPassword) return 0
       // n:数字  l:小写字母  u:大写字母  s:特殊字符
       const result = this.loginForm.newPassword
-        .split('')
-        .map((val) => val.charCodeAt())
-        .reduce((pre, val, index) => {
-          if (val < 48) {
-            pre.special += 1
-          } else if (val < 58) {
-            pre.num += 1
-          } else if (val < 65) {
-            pre.special += 1
-          } else if (val < 91) {
-            pre.upper += 1
-          } else if (val < 97) {
-            pre.special += 1
-          } else if (val < 123) {
-            pre.lower += 1
-          } else {
-            pre.special += 1
-          }
-          return pre
-        }, {
-          num: 0,
-          lower: 0,
-          upper: 0,
-          special: 0
-        })
+          .split('')
+          .map((val) => val.charCodeAt())
+          .reduce((pre, val, index) => {
+            if (val < 48) {
+              pre.special += 1
+            } else if (val < 58) {
+              pre.num += 1
+            } else if (val < 65) {
+              pre.special += 1
+            } else if (val < 91) {
+              pre.upper += 1
+            } else if (val < 97) {
+              pre.special += 1
+            } else if (val < 123) {
+              pre.lower += 1
+            } else {
+              pre.special += 1
+            }
+            return pre
+          }, {
+            num: 0,
+            lower: 0,
+            upper: 0,
+            special: 0
+          })
 
       const arr = Object.values(result)
 
@@ -209,17 +230,17 @@ export default {
           console.log("222")
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
-            .then(res => {
-              console.log("asddas")
+              .then(res => {
+                console.log("asddas")
                 this.$router.push({
                   path: '/dashboard' || '/',
                   query: this.otherQuery
                 })
                 this.loading = false
-            })
-            .catch((e) => {
-              this.loading = false
-            })
+              })
+              .catch((e) => {
+                this.loading = false
+              })
         } else {
           return false
         }
@@ -230,17 +251,17 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/phoneCaptchaLogin', this.loginForm)
-            .then(res => {{
+              .then(res => {{
                 this.$router.push({
                   path: '/dashboard' || '/',
                   query: this.otherQuery
                 })
                 this.loading = false
               }
-            })
-            .catch((e) => {
-              this.loading = false
-            })
+              })
+              .catch((e) => {
+                this.loading = false
+              })
         } else {
           return false
         }
@@ -265,6 +286,12 @@ export default {
     handleLoginBack() {
       this.webType = 'login'
       this.$refs['loginForm'].clearValidate()
+    },
+    handleSignUpType(){
+      if(this.charaValue === 1)
+        this.webType = 'doctorSign'
+      else
+        this.webType = 'patientSign'
     },
     handleResetPassword() {
       this.$refs['loginForm'].validate((valid) => {
