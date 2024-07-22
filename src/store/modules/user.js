@@ -24,8 +24,8 @@ const actions = {
                 password: password
             }).then(response => {
                 const { data } = response
-                commit('SET_TOKEN', data.token)
-                // setToken(data.token)
+                commit('SET_TOKEN', data)
+                setToken(data)
                 resolve(response)
             }).catch(error => {
                 reject(error)
