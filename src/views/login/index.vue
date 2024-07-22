@@ -24,9 +24,102 @@
         <h3 v-if="webType == 'signUp'" class="title">
           账号注册
         </h3>
+        <h3 v-if="webType == 'doctorSign'" class="title">
+          医生注册
+        </h3>
+        <h3 v-if="webType == 'patientSign'" class="title">
+          患者注册
+      </h3>
       </div>
 
       <!-- 账号注册界面 -->
+      <div v-if="webType == 'signUp'">
+        <el-form-item prop="username">
+          <template #prefix>
+            <Search style="width: 1em; height: 1em; margin-right: 8px" />
+          </template>
+          <el-input
+              ref="username"
+              v-model="loginForm.username"
+              :placeholder="'用户名'"
+              name="username"
+              type="text"
+              tabindex="1"
+              autocomplete="on"
+          >
+            <template #prefix>
+              <el-icon><UserFilled /></el-icon>
+            </template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item prop="password">
+          <el-input
+              :key="passwordType"
+              ref="password"
+              v-model="loginForm.password"
+              :type="passwordType"
+              :placeholder="'密码'"
+              name="password"
+              tabindex="2"
+              autocomplete="on"
+              @keyup.enter.native="handleLogin"
+          >
+            <template #prefix>
+              <el-icon><Lock /></el-icon>
+            </template>
+          </el-input>
+          <span class="show-pwd" @click="showPwd">
+          <el-icon v-if="passwordType !== 'password'"><View /></el-icon>
+          <el-icon v-if="passwordType === 'password'"><Hide /></el-icon>
+        </span>
+        </el-form-item>
+
+        <!-- 这里是下拉表 -->
+        <el-select
+            v-model="charaValue"
+            clearable
+            placeholder="身份"
+            style="width: 480px;margin-bottom:18px;margin-left: 30px;margin-top: 10px"
+        >
+          <el-option
+              v-for="item in charaOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+          />
+        </el-select>
+
+        <el-form-item prop="phone">
+          <el-input
+              v-model="loginForm.phone"
+              :placeholder="'手机号'"
+              name="phone"
+              type="text"
+              tabindex="3"
+              autocomplete="on"
+              maxlength="11"
+          />
+        </el-form-item>
+
+        <el-button
+            :loading="loading"
+            type="primary"
+            style="width:47.5%;margin-bottom:30px;"
+            @click="handleSignUpType"
+        >
+          {{ '下一步' }}
+        </el-button>
+
+        <el-button
+            :loading="loading"
+            type="primary"
+            style="width:47.5%;margin-bottom:30px;margin-left: 5%;"
+            @click="handleLoginBack"
+        >
+          {{ '返回' }}
+        </el-button>
+      </div>
 
 
       <!-- 手机号和忘记密码通用的三个输入框 -->
@@ -198,7 +291,7 @@
         v-if="webType == 'forgetPassword' || webType == 'phoneLogin'"
         :loading="loading"
         type="primary"
-        style="width:100%;margin-bottom:30px;"
+        style="width:100%;margin-bottom:30px;margin-left: 0"
         @click="handleLoginBack"
       >
         {{ '返回' }}
@@ -211,11 +304,13 @@
     </el-col>
   </div>
 </template>
+
 <script>
 import login from './login.js'
 
 export default login
 </script>
+
 <style lang="scss">
 
 $bg: #283443;

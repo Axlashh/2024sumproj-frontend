@@ -1,4 +1,5 @@
 import { resetPassword } from '@/api/login'
+
 // import { queryConfigByName } from '@/api/config'
 
 export default {
@@ -36,6 +37,7 @@ export default {
         callback(new Error('手机号格式错误！'))
       }
     }
+
     return {
       codeUrl: null,
       icpNo: '',
@@ -104,9 +106,15 @@ export default {
       getCaptcha: '获取验证码',
       getCaptchaDisable: false,
       captchaDisable: true,
-      identifyCode: ''
+      identifyCode: '',
+      charaValue:'',
+      charaOptions:[
+          {label:'医生',value:1},
+          {label:'患者',value:2},
+      ]
     }
   },
+
   watch: {
     $route: {
       handler: function(route) {
@@ -265,6 +273,12 @@ export default {
     handleLoginBack() {
       this.webType = 'login'
       this.$refs['loginForm'].clearValidate()
+    },
+    handleSignUpType(){
+      if(this.charaValue === "'医生'")
+        this.webType = 'doctorSign'
+      else
+        this.webType = 'patientSign'
     },
     handleResetPassword() {
       this.$refs['loginForm'].validate((valid) => {
