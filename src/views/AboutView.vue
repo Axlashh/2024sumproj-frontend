@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import {qwe} from "@/api/user";
+
 export default {
   data() {
     return {
@@ -39,7 +41,9 @@ export default {
   },
   methods: {
     ooo() {
-      console.log("123123")
+      qwe().then(res => {
+        console.log("222")
+      })
     }
   }
 }

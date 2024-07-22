@@ -14,6 +14,7 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 }, {})
 
 const getters = {
+  token: state => state.user.token,
 }
 
 const store = createStore({

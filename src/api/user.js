@@ -7,3 +7,10 @@ export function login(data) {
         data
     })
 }
+
+export function qwe() {
+    return request({
+        url: '/33',
+        method: 'get'
+    })
+}
