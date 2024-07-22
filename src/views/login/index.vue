@@ -29,10 +29,71 @@
         </h3>
         <h3 v-if="webType == 'patientSign'" class="title">
           患者注册
-      </h3>
+        </h3>
       </div>
 
-      <!-- 账号注册界面 -->
+      <!-- 医生注册界面 -->
+      <div v-if="webType == 'doctorSign'">
+        <el-form-item prop="name">
+          <template #prefix>
+            <Search style="width: 1em; height: 1em; margin-right: 8px" />
+          </template>
+          <el-input
+              ref="name"
+              v-model="loginForm.name"
+              :placeholder="'姓名'"
+              name="name"
+              type="text"
+              tabindex="1"
+              autocomplete="on"
+          >
+            <template #prefix>
+              <el-icon><UserFilled /></el-icon>
+            </template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item prop="idCardNumber">
+          <template #prefix>
+            <Search style="width: 1em; height: 1em; margin-right: 8px" />
+          </template>
+          <el-input
+              ref="idCardNumber"
+              v-model="loginForm.idCardNumber"
+              :placeholder="'身份证号'"
+              name="idCardNumber"
+              type="text"
+              tabindex="1"
+              autocomplete="on"
+          >
+            <template #prefix>
+              <el-icon><Stamp /></el-icon>
+            </template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item prop="staffId">
+          <template #prefix>
+            <Search style="width: 1em; height: 1em; margin-right: 8px" />
+          </template>
+          <el-input
+              ref="staffId"
+              v-model="loginForm.staffId"
+              :placeholder="'工号'"
+              name="workerID"
+              type="text"
+              tabindex="1"
+              autocomplete="on"
+          >
+            <template #prefix>
+              <el-icon><Avatar /></el-icon>
+            </template>
+          </el-input>
+        </el-form-item>
+      </div>
+
+
+<!--      账号注册界面-->
       <div v-if="webType == 'signUp'">
         <el-form-item prop="username">
           <template #prefix>
@@ -87,6 +148,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
+              v-model="item.label"
           />
         </el-select>
 
@@ -120,7 +182,6 @@
           {{ '返回' }}
         </el-button>
       </div>
-
 
       <!-- 手机号和忘记密码通用的三个输入框 -->
       <div v-if="webType == 'forgetPassword' || webType == 'phoneLogin'">
@@ -210,7 +271,7 @@
             </template>
           </el-input>
         </el-form-item>
-        
+
 
       <el-form-item prop="password">
         <el-input
@@ -291,7 +352,7 @@
         v-if="webType == 'forgetPassword' || webType == 'phoneLogin'"
         :loading="loading"
         type="primary"
-        style="width:100%;margin-bottom:30px;margin-left: 0"
+        style="width:100%;margin-bottom:30px;"
         @click="handleLoginBack"
       >
         {{ '返回' }}
@@ -304,6 +365,7 @@
     </el-col>
   </div>
 </template>
+
 
 <script>
 import login from './login.js'
