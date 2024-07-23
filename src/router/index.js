@@ -13,6 +13,10 @@ const routes = [
   {
     path: '/dashboard',
     component: () => import('@/views/HomeView')
+  },
+  {
+    path:'/biao',
+    component:()=>import('@/views/biao')
   }
 ]
 
