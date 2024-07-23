@@ -30,6 +30,9 @@
         <h3 v-if="webType == 'patientSign'" class="title">
           患者注册
         </h3>
+        <h3 v-if="webType == 'home'" class="title">
+          主页界面
+        </h3>
       </div>
 
       <!-- 医生注册界面 -->
@@ -72,6 +75,51 @@
           </el-input>
         </el-form-item>
 
+        <el-select
+            v-model="genderValue"
+            clearable
+            placeholder="性别"
+            style="width: 480px;margin-bottom:18px;margin-left: 30px;margin-top: 10px"
+        >
+          <el-option
+              v-for="item in gender"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              v-model="item.label"
+          />
+        </el-select>
+
+        <el-select
+            v-model="identityValue"
+            clearable
+            placeholder="职称"
+            style="width: 480px;margin-bottom:18px;margin-left: 30px;margin-top: 10px"
+        >
+          <el-option
+              v-for="item in identity"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              v-model="item.label"
+          />
+        </el-select>
+
+        <el-select
+            v-model="departmentValue"
+            clearable
+            placeholder="部门"
+            style="width: 480px;margin-bottom:18px;margin-left: 30px;margin-top: 10px"
+        >
+          <el-option
+              v-for="item in department"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              v-model="item.label"
+          />
+        </el-select>
+
         <el-form-item prop="staffId">
           <template #prefix>
             <Search style="width: 1em; height: 1em; margin-right: 8px" />
@@ -90,6 +138,24 @@
             </template>
           </el-input>
         </el-form-item>
+
+        <el-button
+            :loading="loading"
+            type="primary"
+            style="width:47.5%;margin-bottom:30px;"
+            @click="handleLoginin"
+        >
+          {{ '注册' }}
+        </el-button>
+
+        <el-button
+            :loading="loading"
+            type="primary"
+            style="width:47.5%;margin-bottom:30px;margin-left: 5%;"
+            @click="handleSignBack"
+        >
+          {{ '返回' }}
+        </el-button>
       </div>
 
 

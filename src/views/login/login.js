@@ -117,6 +117,9 @@ export default {
       captchaDisable: true,
       identifyCode: '',
       charaValue:'',
+      genderValue:'',
+      identityValue:'',
+      departmentValue:'',
       charaOptions:[
         {label:'医生',value:1},
         {label:'患者',value:2},
@@ -124,6 +127,14 @@ export default {
       gender:[
         {label:'男',value:1},
         {label:'女',value:2},
+      ],
+      identity:[
+        {label:'医生',value:1},
+        {label:'护士',value:2},
+      ],
+      department:[
+        {label:'部门1',value:1},
+        {label:'部门2',value:2},
       ]
     }
   },
@@ -292,6 +303,13 @@ export default {
         this.webType = 'doctorSign'
       else
         this.webType = 'patientSign'
+    },
+    handleSignBack() {
+      this.webType = 'signUp'
+      this.$refs['loginForm'].clearValidate()
+    },
+    handleLoginin()  {
+      this.webType = 'home'   //进入主页面
     },
     handleResetPassword() {
       this.$refs['loginForm'].validate((valid) => {
