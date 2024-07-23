@@ -4,6 +4,12 @@ export default {
     name:'HomeView',
     data(){
         return{
+            input:'',
+            textarea:'',
+            typeValue:'',
+            type:[
+                {label:'无',value:1},
+            ],
                 tableData : [
                     {
                         date: '2016-05-03',
@@ -33,5 +39,15 @@ export default {
         handleDelete(){
 
         },
+        handleEdit(){
+
+        },
+        handleSerch(){
+
+        },
+        handleCreat(){
+
+        },
+
     }
 }

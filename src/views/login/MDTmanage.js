@@ -1,7 +1,15 @@
+import { resetPassword } from '@/api/login'
+
 export default {
-    name:'biao',
+    name:'HomeView',
     data(){
         return{
+            input:'',
+            textarea:'',
+            typeValue:'',
+            type:[
+                {label:'无',value:1},
+            ],
             tableData : [
                 {
                     date: '2016-05-03',
@@ -23,10 +31,7 @@ export default {
                     name: 'Tom',
                     address: 'No. 189, Grove St, Los Angeles',
                 },
-            ],
-            textarea:'',
-            type:'',
-            typeValue:'',
+            ]
         }
     },
 
@@ -37,5 +42,12 @@ export default {
         handleEdit(){
 
         },
+        handleSerch(){
+
+        },
+        handleCreat(){
+
+        },
+
     }
 }

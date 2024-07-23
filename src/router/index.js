@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
     next('/login')
   } else {
     console.log("11")
-    //如果有token且想访问登录页面，则重定向至主页
+    // 如果有token且想访问登录页面，则重定向至主页
     if (to.path === "/login") {
       next('/dashboard')
     }
