@@ -1,7 +1,7 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <el-header><h1>字典管理</h1></el-header>
+      <el-header><h1>MDT管理</h1></el-header>
       <div style="border-bottom:5px solid"></div>
       <el-container>
         <el-aside width="200px"></el-aside>
@@ -61,9 +61,6 @@
             </el-button>
           </div>
 
-
-
-
           <el-table :data="tableData" style="width: 100%" stripe height="250">
             <el-table-column prop="date" label="1" width="180" />
             <el-table-column prop="name" label="2" width="180" />
@@ -88,7 +85,7 @@
 
 <script>
 // @ is an alias to /src
-import Home from './Home.js'
+import Home from './MDTmanage.js'
 export default Home
 
 </script>

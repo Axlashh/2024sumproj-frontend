@@ -12,6 +12,11 @@ export default {
             ],
             tableData : [
                 {
+                  date: '序号',
+                  name: '患者姓名',
+                  address: 'MDT团队',
+                },
+                {
                     date: '2016-05-03',
                     name: 'Tom',
                     address: 'No. 189, Grove St, Los Angeles',

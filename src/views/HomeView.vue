@@ -65,10 +65,13 @@
 
 
           <el-table :data="tableData" style="width: 100%" stripe height="250">
-            <el-table-column prop="date" label="1" width="180" />
-            <el-table-column prop="name" label="2" width="180" />
-            <el-table-column prop="address" label="3" />
-            <el-table-column fixed="right" label="4" width="120">
+            <el-table-column prop="id" label="1" width="180" />
+            <el-table-column prop="value" label="2" width="180" />
+            <el-table-column prop="name" label="3" width="180"/>
+            <el-table-column prop="type" label="4" width="180"/>
+            <el-table-column prop="key" label="5" width="180"/>
+            <el-table-column prop="number" label="6" width="180"/>
+            <el-table-column fixed="right" label="7" width="120">
               <template #default>
                 <el-button link type="primary" size="small" @click="handleDelete">
                   删除
