@@ -158,6 +158,88 @@
         </el-button>
       </div>
 
+<!--      患者注册界面-->
+      <div v-if="webType == 'patientSign'">
+        <el-form-item prop="name">
+          <template #prefix>
+            <Search style="width: 1em; height: 1em; margin-right: 8px" />
+          </template>
+          <el-input
+              ref="name"
+              v-model="loginForm.name"
+              :placeholder="'姓名'"
+              name="name"
+              type="text"
+              tabindex="1"
+              autocomplete="on"
+          >
+            <template #prefix>
+              <el-icon><UserFilled /></el-icon>
+            </template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item prop="idCardNumber">
+          <template #prefix>
+            <Search style="width: 1em; height: 1em; margin-right: 8px" />
+          </template>
+          <el-input
+              ref="idCardNumber"
+              v-model="loginForm.idCardNumber"
+              :placeholder="'身份证号'"
+              name="idCardNumber"
+              type="text"
+              tabindex="1"
+              autocomplete="on"
+          >
+            <template #prefix>
+              <el-icon><Stamp /></el-icon>
+            </template>
+          </el-input>
+        </el-form-item>
+
+        <el-select
+            v-model="genderValue"
+            clearable
+            placeholder="性别"
+            style="width: 480px;margin-bottom:18px;margin-left: 30px;margin-top: 10px"
+        >
+          <el-option
+              v-for="item in gender"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              v-model="item.label"
+          />
+        </el-select>
+
+        <el-input
+            type="textarea"
+            :rows="2"
+            placeholder="症状描述"
+            v-model="textarea">
+        </el-input>
+        <h3></h3>
+
+        <el-button
+            :loading="loading"
+            type="primary"
+            style="width:47.5%;margin-bottom:30px;"
+            @click="handleLoginin"
+        >
+          {{ '注册' }}
+        </el-button>
+
+        <el-button
+            :loading="loading"
+            type="primary"
+            style="width:47.5%;margin-bottom:30px;margin-left: 5%;"
+            @click="handleSignBack"
+        >
+          {{ '返回' }}
+        </el-button>
+      </div>
+
 
 <!--      账号注册界面-->
       <div v-if="webType == 'signUp'">
@@ -396,33 +478,46 @@
         </el-button>
       </div>
 
-      <el-button
-        v-if="webType == 'phoneLogin'"
-        :loading="loading"
-        type="primary"
-        style="width:100%;margin-bottom:30px;"
-        @click.native.prevent="handlePhoneLogin"
-      >
-        {{ '登录' }}
-      </el-button>
-      <el-button
-        v-if="webType == 'forgetPassword'"
-        :loading="loading"
-        type="primary"
-        style="width:100%;margin-bottom:30px;"
-        @click="handleResetPassword"
-      >
-        {{ '重置' }}
-      </el-button>
-      <el-button
-        v-if="webType == 'forgetPassword' || webType == 'phoneLogin'"
-        :loading="loading"
-        type="primary"
-        style="width:100%;margin-bottom:30px;"
-        @click="handleLoginBack"
-      >
-        {{ '返回' }}
-      </el-button>
+      <div v-if="webType == 'phoneLogin'">
+        <el-button
+            :loading="loading"
+            type="primary"
+            style="width:47.5%;margin-bottom:30px;margin-left: 0%"
+            @click.native.prevent="handlePhoneLogin"
+        >
+          {{ '登录' }}
+        </el-button>
+
+        <el-button
+            :loading="loading"
+            type="primary"
+            style="width:47.5%;margin-bottom:30px;margin-left: 5%"
+            @click="handleLoginBack"
+        >
+          {{ '返回' }}
+        </el-button>
+      </div>
+
+      <div v-if="webType == 'forgetPassword'">
+        <el-button
+            :loading="loading"
+            type="primary"
+            style="width:47.5%;margin-bottom:30px;margin-left: 0%"
+            @click="handleResetPassword"
+        >
+          {{ '重置' }}
+        </el-button>
+
+        <el-button
+            :loading="loading"
+            type="primary"
+            style="width:47.5%;margin-bottom:30px;margin-left: 5%"
+            @click="handleLoginBack"
+        >
+          {{ '返回' }}
+        </el-button>
+      </div>
+
     </el-form>
     <el-col>
       <el-row class="bottom_layer">922106840225 黄子昕</el-row>
