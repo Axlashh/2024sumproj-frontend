@@ -148,18 +148,20 @@
           {{ '注册' }}
         </el-button>
 
-        <el-button
-            :loading="loading"
-            type="primary"
-            style="width:47.5%;margin-bottom:30px;margin-left: 5%;"
-            @click="handleSignBack"
-        >
-          {{ '返回' }}
-        </el-button>
       </div>
 
+      <!-- 医生、患者返回按钮 -->
+      <el-button
+          v-if="webType == 'doctorSign' || webType == 'patientSign'"
+          :loading="loading"
+          type="primary"
+          style="width:47.5%;margin-bottom:30px;margin-left: 5%;"
+          @click="handleSignUpBack"
+      >
+        {{ '返回' }}
+      </el-button>
 
-<!--      账号注册界面-->
+      <!-- 账号注册界面 -->
       <div v-if="webType == 'signUp'">
         <el-form-item prop="username">
           <template #prefix>
@@ -203,21 +205,23 @@
         </el-form-item>
 
         <!-- 这里是下拉表 -->
-        <el-select
-            v-model="charaValue"
-            clearable
-            placeholder="身份"
-            style="width: 480px;margin-bottom:18px;margin-left: 30px;margin-top: 10px"
-        >
-          <el-option
-              v-for="item in charaOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              v-model="item.label"
-          />
-        </el-select>
-
+        <el-form-item prop="charaValue">
+          <el-select
+              v-model="charaValue"
+              ref="charaValue"
+              clearable
+              placeholder="身份"
+              style="width: 480px;margin-bottom:18px;margin-left: 30px;margin-top: 10px"
+          >
+            <el-option
+                v-for="item in charaOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+                v-model="item.label"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item prop="phone">
           <el-input
               v-model="loginForm.phone"
@@ -418,7 +422,7 @@
         v-if="webType == 'forgetPassword' || webType == 'phoneLogin'"
         :loading="loading"
         type="primary"
-        style="width:100%;margin-bottom:30px;"
+        style="width:100%;margin-bottom:30px;margin-left: 0"
         @click="handleLoginBack"
       >
         {{ '返回' }}

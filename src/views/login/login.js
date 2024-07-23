@@ -37,6 +37,13 @@ export default {
         callback(new Error('手机号格式错误！'))
       }
     }
+    const validateChara = (rule, value, callback) => {
+      if(value){
+        callback(new Error('请选择身份！'))
+      }else{
+        callback()
+      }
+    }
 
     return {
       codeUrl: null,
@@ -102,6 +109,12 @@ export default {
             required: true,
             message: '请输入验证码！',
             trigger: 'blur'
+          }],
+        chara:[
+          {
+            required: true,
+            trigger:'change',
+            validator: validateChara
           }]
       },
       webType: 'login',
@@ -298,10 +311,14 @@ export default {
       this.webType = 'login'
       this.$refs['loginForm'].clearValidate()
     },
+    handleSignUpBack() {
+      this.webType = 'signUp'
+      this.$refs['loginForm'].clearValidate()
+    },
     handleSignUpType(){
       if(this.charaValue === 1)
         this.webType = 'doctorSign'
-      else
+      else if(this.charaValue === 2)
         this.webType = 'patientSign'
     },
     handleSignBack() {
