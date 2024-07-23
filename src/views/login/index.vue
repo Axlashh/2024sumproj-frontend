@@ -285,21 +285,23 @@
         </el-form-item>
 
         <!-- 这里是下拉表 -->
-        <el-select
-            v-model="charaValue"
-            clearable
-            placeholder="身份"
-            style="width: 480px;margin-bottom:18px;margin-left: 30px;margin-top: 10px"
-        >
-          <el-option
-              v-for="item in charaOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              v-model="item.label"
-          />
-        </el-select>
-
+        <el-form-item prop="charaValue">
+          <el-select
+              v-model="charaValue"
+              ref="charaValue"
+              clearable
+              placeholder="身份"
+              style="width: 480px;margin-bottom:18px;margin-left: 30px;margin-top: 10px"
+          >
+            <el-option
+                v-for="item in charaOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+                v-model="item.label"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item prop="phone">
           <el-input
               v-model="loginForm.phone"
