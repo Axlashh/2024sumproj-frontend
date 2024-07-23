@@ -65,6 +65,7 @@ export default {
         department: '',
         staffId: '',
         description: '',
+        textarea:'',
         uuid: null
       },
       loginRules: {
@@ -133,6 +134,7 @@ export default {
       genderValue:'',
       identityValue:'',
       departmentValue:'',
+      textarea:'',
       charaOptions:[
         {label:'医生',value:1},
         {label:'患者',value:2},
