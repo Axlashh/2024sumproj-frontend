@@ -1,75 +1,111 @@
 <template>
-  <div class="common-layout">
-    <el-container>
-      <el-header><h1>MDT管理</h1></el-header>
-      <div style="border-bottom:5px solid"></div>
-      <el-container>
-        <el-aside width="200px"></el-aside>
-        <el-main>
+  <div class="app-container">
+    <div class="filter-container" style="float: right">
 
-          <div>
-            <el-input
-                type="textarea"
-                :rows="2"
-                placeholder="字典值"
-                style="width:15%;margin-bottom:20px;margin-left: 30%"
-                v-model="textarea">
-              clearable
-            </el-input>
+      <el-select
+          v-model="typeValue"
+          clearable
+          placeholder="MDT团队名"
+          class="filter-item"
+      >
+        <el-option
+            v-for="item in type"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            v-model="item.label"
+        />
+      </el-select>
 
-            <el-select
-                v-model="typeValue"
-                clearable
-                placeholder="类型"
-                style="width: 15%;margin-bottom:20px;margin-left: 30px;margin-top: 10px"
-            >
-              <el-option
-                  v-for="item in type"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                  v-model="item.label"
-              />
-            </el-select>
+      <el-input
+          placeholder="患者姓名"
+          clearable
+          filterable
+          resize="none"
+          class="filter-item"
+          v-model="textarea">
+        clearable
+      </el-input>
 
-            <el-button
-                :loading="loading"
-                type="primary"
-                style="width:15%;margin-bottom:10px;margin-left: 2.5%"
-                @click.native.prevent="handleSerch"
-            >
-              {{ '搜索' }}
-            </el-button>
+      <el-date-picker
+          v-model="timeLimit"
+          type="datetimerange"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          range-separator="至"
+          start-placeholder="预约开始日期"
+          end-placeholder="预约结束日期"
+          style="width: auto"
+          class="filter-item"
+          @change="handleFilter"
+      />
 
-            <el-button
-                :loading="loading"
-                type="primary"
-                style="width:15%;margin-bottom:10px;margin-left: 2.5%"
-                @click="handleCreat"
-            >
-              {{ '添加' }}
-            </el-button>
-          </div>
+      <el-button
+          :loading="loading"
+          type="primary"
+          class="filter-item"
+          @click.native.prevent="handleSerch"
+      >
+        {{ '搜索' }}
+      </el-button>
 
-          <el-table :data="tableData" style="width: 100%" stripe height="250">
-            <el-table-column prop="date" label="1" width="180" />
-            <el-table-column prop="name" label="2" width="180" />
-            <el-table-column prop="address" label="3" />
-            <el-table-column fixed="right" label="4" width="120">
-              <template #default>
-                <el-button link type="primary" size="small" @click="handleDelete">
-                  删除
-                </el-button>
-                <el-button link type="primary" size="small" @click="handleEdit">
-                  Edit
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
+      <el-button
+          :loading="loading"
+          type="primary"
+          class="filter-item"
+          @click="handleCreat"
+      >
+        {{ '添加' }}
+      </el-button>
+    </div>
 
-        </el-main>
-      </el-container>
-    </el-container>
+    <el-table
+        :data="tableData"
+        v-loading="listLoading"
+        style="width: 100%"
+        highlight-current-row
+    >
+      <el-table-column :label="'序号'" fixed prop="id" align="center" width="50">
+        <template v-slot:default="scope">
+          <span>{{ (pageIndex - 1) * pageSize + scope.$index + 1 }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'患者姓名'" fixed width="120" align="center">
+        <template v-slot:default="{row}">
+          <span>{{ row.patientName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'MDT团队'" align="center">
+        <template v-slot:default="{row}">
+          <span>{{ row.patientName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'申请医生姓名'" fixed="right" width="120" align="center">
+        <template v-slot:default="{row}">
+          <span>{{ row.patientName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'会议开始时间'" fixed="right" width="120" align="center">
+        <template v-slot:default="{row}">
+          <span>{{ row.patientName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'会议结束时间'" fixed="right" width="120" align="center">
+        <template v-slot:default="{row}">
+          <span>{{ row.patientName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'操作'" fixed="right" width="120" align="center">
+        <template #default>
+          <el-button link type="primary" size="small" @click="handleDelete">
+            删除
+          </el-button>
+          <el-button link type="primary" size="small" @click="handleEdit">
+            Edit
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
   </div>
 </template>
 

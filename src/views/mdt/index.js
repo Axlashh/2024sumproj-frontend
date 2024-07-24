@@ -7,36 +7,20 @@ export default {
             input:'',
             textarea:'',
             typeValue:'',
+            tableData: [],
+            timeLimit: null,
+            loading: false,
+            listLoading: false,
+            listQuery: {
+                page: 1,
+                limit: 20,
+                groupName: undefined,
+                patientName: undefined,
+                type: 0
+            },
             type:[
                 {label:'无',value:1},
             ],
-            tableData : [
-                {
-                  date: '序号',
-                  name: '患者姓名',
-                  address: 'MDT团队',
-                },
-                {
-                    date: '2016-05-03',
-                    name: 'Tom',
-                    address: 'No. 189, Grove St, Los Angeles',
-                },
-                {
-                    date: '2016-05-02',
-                    name: 'Tom',
-                    address: 'No. 189, Grove St, Los Angeles',
-                },
-                {
-                    date: '2016-05-04',
-                    name: 'Tom',
-                    address: 'No. 189, Grove St, Los Angeles',
-                },
-                {
-                    date: '2016-05-01',
-                    name: 'Tom',
-                    address: 'No. 189, Grove St, Los Angeles',
-                },
-            ]
         }
     },
 
@@ -52,6 +36,14 @@ export default {
         },
         handleCreat(){
 
+        },
+        handleFilter() {
+            console.log(this.timeLimit)
+        },
+
+        getSortClass: function(key) {
+            const sort = this.listQuery.sort
+            return sort === `+${key}` ? 'ascending' : 'descending'
         },
 
     }
