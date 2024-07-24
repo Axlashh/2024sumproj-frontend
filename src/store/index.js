@@ -15,6 +15,8 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 
 const getters = {
   token: state => state.user.token,
+  sidebar: state => state.app.sidebar,
+  permission_routes: state => state.permission.routes,
 }
 
 const store = createStore({

@@ -1,5 +1,7 @@
 import {login} from "@/api/user";
 import {getToken, setToken, removeToken} from "@/utils/auth";
+import router, {resetRouter} from "@/router";
+import store from "@/store";
 
 const state = {
     token: getToken(),
@@ -22,11 +24,13 @@ const actions = {
             login({
                 userName: username.trim(),
                 password: password
-            }).then(response => {
-                const { data } = response
+            }).then(async response => {
+                const {data} = response
                 commit('SET_TOKEN', data)
                 setToken(data)
                 resolve(response)
+                const accessRoutes = await store.dispatch('permission/generateRoutes')
+                router.addRoutes(accessRoutes)
             }).catch(error => {
                 reject(error)
             })
@@ -38,6 +42,16 @@ const actions = {
             commit('SET_TOKEN', '')
             commit('SET_ROLES', [])
             removeToken()
+            resolve()
+        })
+    },
+    logout({ commit }) {
+        return new Promise((resolve, reject) => {
+            commit('SET_TOKEN', '')
+            commit('SET_ROLES', [])
+            removeToken()
+            resetRouter()
+
             resolve()
         })
     },

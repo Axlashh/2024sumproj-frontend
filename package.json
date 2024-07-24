@@ -12,11 +12,14 @@
     "core-js": "^3.8.3",
     "element-plus": "^2.7.7",
     "js-cookie": "^3.0.5",
+    "path-browserify": "^1.0.1",
     "vue": "^3.2.0",
     "vue-router": "^4.0.3",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.24.7",
+    "@vue/babel-plugin-jsx": "^1.2.2",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",

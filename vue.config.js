@@ -17,4 +17,11 @@ module.exports = defineConfig({
     },
     webSocketServer: false,
   },
+  configureWebpack: {
+    resolve: {
+      fallback: {
+        path: require.resolve('path-browserify'),
+      },
+    },
+  },
 })
