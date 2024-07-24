@@ -30,6 +30,16 @@ const routes = [
             meta: { title: '字典管理', icon: 'dashboard', affix: true }
           }
         ]
+      },
+      {
+        path: 'mdt',
+        children: [
+          {
+            path: 'mdtRecord',
+            component:() => import('@/views/mdt/MDTRecord'),
+            meta: { title: 'MDT管理', icon: 'dashboard', affix: true }
+          }
+        ]
       }
     ]
   },

@@ -12,6 +12,7 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import {getAuthMenu} from "@/api/user";
 import {mapGetters} from "vuex";
+import {getDictList} from "@/api/dict";
 
 export default {
   name: 'HomeView',
@@ -24,12 +25,22 @@ export default {
       'sidebar'
     ])
   },
+  data() {
+    return {
+      dictionaryList: []
+    }
+  },
   methods: {
     qwe() {
       console.log(this.permission_routes)
+      getDictList().then(res => {
+        this.dictionaryList = res.data
+      })
+
     },
     ppp() {
       this.$store.dispatch('user/resetToken');
+
     }
   }
 }

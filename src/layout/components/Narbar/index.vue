@@ -7,7 +7,7 @@
       @toggleClick="toggleSideBar"
     />
 
-    <el-breadcrumb id="breadcrumb-container" class="breadcrumb-container"/>
+    <breadcrumb id="breadcrumb-container" class="breadcrumb-container"/>
 
     <div class="right-menu">
       <el-dropdown id="personnel-panel" class="avatar-container right-menu-item hover-effect" trigger="click">
@@ -33,10 +33,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import Hamburger from './Hamburger'
+import Breadcrumb from './Breadcrumb'
 
 export default {
   components: {
     Hamburger,
+    Breadcrumb
   },
   computed: {
     ...mapGetters([

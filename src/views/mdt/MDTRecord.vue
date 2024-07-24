@@ -8,16 +8,6 @@
         <el-main>
 
           <div>
-            <!--            普通的输入框-->
-            <!--            <el-input-->
-            <!--                type="input"-->
-            <!--                :rows="2"-->
-            <!--                placeholder="字典值"-->
-            <!--                style="width:15%;margin-bottom:18px;margin-left: 0%"-->
-            <!--                v-model="input">-->
-            <!--              clearable-->
-            <!--            </el-input>-->
-            <!--            文本域输入框-->
             <el-input
                 type="textarea"
                 :rows="2"
@@ -85,7 +75,7 @@
 
 <script>
 // @ is an alias to /src
-import Home from './MDTmanage.js'
-export default Home
+import MDTRecord from './index.js'
+export default MDTRecord
 
 </script>
