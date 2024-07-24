@@ -37,6 +37,13 @@ export default {
         callback(new Error('手机号格式错误！'))
       }
     }
+    const validateChara = (rule, value, callback) => {
+      if(value){
+        callback(new Error('请选择身份！'))
+      }else{
+        callback()
+      }
+    }
 
     return {
       codeUrl: null,
@@ -58,6 +65,7 @@ export default {
         department: '',
         staffId: '',
         description: '',
+        textarea:'',
         uuid: null
       },
       loginRules: {
@@ -102,6 +110,12 @@ export default {
             required: true,
             message: '请输入验证码！',
             trigger: 'blur'
+          }],
+        chara:[
+          {
+            required: true,
+            trigger:'change',
+            validator: validateChara
           }]
       },
       webType: 'login',
@@ -117,6 +131,10 @@ export default {
       captchaDisable: true,
       identifyCode: '',
       charaValue:'',
+      genderValue:'',
+      identityValue:'',
+      departmentValue:'',
+      textarea:'',
       charaOptions:[
         {label:'医生',value:1},
         {label:'患者',value:2},
@@ -124,6 +142,14 @@ export default {
       gender:[
         {label:'男',value:1},
         {label:'女',value:2},
+      ],
+      identity:[
+        {label:'医生',value:1},
+        {label:'护士',value:2},
+      ],
+      department:[
+        {label:'部门1',value:1},
+        {label:'部门2',value:2},
       ]
     }
   },
@@ -283,11 +309,22 @@ export default {
       this.webType = 'login'
       this.$refs['loginForm'].clearValidate()
     },
+    handleSignUpBack() {
+      this.webType = 'signUp'
+      this.$refs['loginForm'].clearValidate()
+    },
     handleSignUpType(){
       if(this.charaValue === 1)
         this.webType = 'doctorSign'
-      else
+      else if(this.charaValue === 2)
         this.webType = 'patientSign'
+    },
+    handleSignBack() {
+      this.webType = 'signUp'
+      this.$refs['loginForm'].clearValidate()
+    },
+    handleLoginin()  {
+      this.webType = 'home'   //进入主页面
     },
     handleResetPassword() {
       this.$refs['loginForm'].validate((valid) => {

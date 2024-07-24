@@ -19,9 +19,20 @@ const routes = [
         component: () => import('@/views/HomeView'),
         name: 'Dashboard',
         meta: { title: '首页', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'sys',
+        children: [
+          {
+            path: 'dict',
+            component: () => import('@/views/sys/dict/Dict'),
+            name: 'Dict',
+            meta: { title: '字典管理', icon: 'dashboard', affix: true }
+          }
+        ]
       }
     ]
-  }
+  },
 ]
 
 
@@ -38,7 +49,8 @@ router.beforeEach(async (to, from, next) => {
     }
     next('/login')
   } else {
-    //如果有token且想访问登录页面，则重定向至主页
+    console.log("11")
+    // 如果有token且想访问登录页面，则重定向至主页
     if (to.path === "/login") {
       next('/dashboard')
     }
