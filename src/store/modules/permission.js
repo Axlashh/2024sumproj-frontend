@@ -2,6 +2,7 @@ import { asyncRoutes, errorRoutes, constantRoutes } from '@/router'
 import { getAuthMenu } from '@/api/user'
 import { ElMessage } from 'element-plus'
 import Layout from '@/layout'
+import store from "@/store";
 
 /**
  * 验证当前用户是否有某种特定权限
@@ -79,6 +80,10 @@ const actions = {
     return new Promise(resolve => {
       const authMenuData = []
       getAuthMenu(state.token).then(response => {
+        console.log("123123123",response)
+        if (response.status === 'ERROR') {
+          store.dispatch('user/logout')
+        }
         // let data = response
         if (response.code === 20000) {
           const data = response.data
@@ -99,7 +104,7 @@ const actions = {
           commit('SET_ROUTES', accessedRoutes)
           resolve(accessedRoutes)
         } else {
-          ElMessage.error('获取菜单失败')
+          store.dispatch('user/logout')
         }
       }).catch(error => {
         console.log(error)

@@ -66,7 +66,7 @@ router.beforeEach(async (to, from, next) => {
     }
     if (store.getters.permission_routes == null || store.getters.permission_routes.length === 0) {
       const accessRoutes = await store.dispatch('permission/generateRoutes')
-      console.log(accessRoutes)
+      console.log("dsasdaasdsaasdasdsad", accessRoutes)
     }
     console.log(store.getters.permission_routes)
     next()

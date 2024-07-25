@@ -28,3 +28,18 @@ export function qwe() {
         method: 'get'
     })
 }
+
+
+export function getPatientList() {
+    return request({
+        url:'/user/getPatientList',
+        method: 'get'
+    })
+}
+
+export function getDoctorList() {
+    return request({
+        url:'/user/getDoctorList',
+        method: 'get'
+    })
+}
