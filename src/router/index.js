@@ -36,6 +36,16 @@ const routes = [
             meta: { title: 'MDT管理', icon: 'dashboard', affix: true }
           }
         ]
+      },
+      {
+        path: 'mdt',
+        children: [
+          {
+            path: 'mdtRecord',
+            component:() => import('@/views/mdt/MDTRecord'),
+            meta: { title: 'MDT管理', icon: 'dashboard', affix: true }
+          }
+        ]
       }
     ]
   },
@@ -60,11 +70,11 @@ router.beforeEach(async (to, from, next) => {
     if (to.path === "/login") {
       next('/dashboard')
     }
-    console.log(store.getters.permission_routes)
     if (store.getters.permission_routes == null || store.getters.permission_routes.length === 0) {
       const accessRoutes = await store.dispatch('permission/generateRoutes')
       console.log(accessRoutes)
     }
+    console.log(store.getters.permission_routes)
     next()
   }
 })
