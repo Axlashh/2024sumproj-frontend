@@ -1,4 +1,4 @@
-<template>
+gti<template>
   <div class="common-layout">
     <el-container>
       <el-header><h1>字典管理</h1></el-header>
