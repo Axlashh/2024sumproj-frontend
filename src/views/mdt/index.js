@@ -1,12 +1,25 @@
 import { resetPassword } from '@/api/login'
 import Pagination from "@/components/Pagination/index.vue";
-import {appointmentApply, getMdtGroupList, getMdtRecordList} from "@/api/mdt";
+import {
+    appointmentApply,
+    commitFile,
+    getFileList,
+    getMdtGroupList,
+    getMdtRecordList,
+    getPatientFile,
+    synOneFile
+} from "@/api/mdt";
 import {ElMessage, FormRules} from "element-plus";
 import {getPatientList} from "@/api/user";
 
 export default {
     name:'HomeView',
     components: {Pagination},
+    filters: {
+        fileTypeFilter(type) {
+            return this.fileTypeOptions[type] || 'Unknown File Type';
+        }
+    },
     data(){
         return{
             input:'',
@@ -30,12 +43,17 @@ export default {
                 patientId: null,
                 mdtGroupId: null,
                 appointmentReason: '',
+
+                fileName: null,
+                fileType: null,
+                fileDesc: null,
             },
             dialogVisible: false,
             dialogStatus: '',
             textMap: {
                 appointment: 'MDT申请',
-                file: '资料管理',
+                fileManage: '资料管理',
+                addFile: '添加文件',
             },
             rules: FormRules = {
                 patientId: [{
@@ -46,6 +64,10 @@ export default {
             },
             patientList: [],
             mdtGroupList: [],
+            fileList: [],
+            fileTypeOptions: [],
+            patientFileList: [],
+            tempRow: null,
             type:[
                 {label:'无',value:1},
             ],
@@ -53,6 +75,14 @@ export default {
     },
 
     methods:{
+        fileManage(row) {
+            this.dialogVisible = true
+            this.dialogStatus = 'fileManage'
+            this.tempRow = Object.assign({}, row)
+            getFileList({ mdtFileIds: this.tempRow.mdtFileIds }).then(res => {
+                this.fileList = res.data
+            })
+        },
         handleDelete(){
 
         },
@@ -65,7 +95,6 @@ export default {
         handleAppointment(){
             this.dialogVisible = true
             this.dialogStatus = 'appointment'
-            console.log(this.dialogVisible)
         },
         handleAppointmentForm() {
             this.$refs.dataForm.validate((valid) => {
@@ -121,7 +150,34 @@ export default {
             const sort = this.listQuery.sort
             return sort === `+${key}` ? 'ascending' : 'descending'
         },
-
+        handleAddFile() {
+            this.dialogStatus = 'addFile'
+        },
+        handleSynFile() {
+            this.dialogVisible = true
+            this.dialogStatus = 'synFile'
+            this.listLoading = true
+            getPatientFile({patientId: this.tempRow.patientId, mdtFileIds: this.tempRow.mdtFileIds}).then(res => {
+                this.listLoading = false
+                this.patientFileList = res.data
+            })
+        },
+        synOneFile(row) {
+            synOneFile({mdtFileId: row.mdtFileId, mdtRecordId: this.tempRow.mdtRecordId}).then(res => {
+                getPatientFile(this.tempRow)
+            })
+        },
+        handleCommitFile() {
+            this.temp.patientId = this.patientId
+            commitFile(this.temp).then(res => {
+                if (res.code === 20000) {
+                    this.dialogVisible = false
+                    ElMessage({
+                        message: '文件提交成功'
+                    })
+                }
+            })
+        }
     },
     created() {
         this.getRecordList()

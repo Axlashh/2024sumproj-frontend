@@ -96,18 +96,19 @@
           <span>{{ row.patientName }}</span>
         </template>
       </el-table-column>
+
       <el-table-column :label="'操作'" fixed="right" width="200" align="center">
-        <template #default>
-          <el-button link type="primary" size="small" @click="handleDelete">
+        <template v-slot:default="{row,$index}">
+          <el-button type="primary" class="handle-button" size="small" @click="fileManage(row,$index)">
             资料管理
           </el-button>
-          <el-button link type="primary" size="small" @click="handleDelete">
+          <el-button type="primary" class="handle-button" size="small" @click="handleDelete">
             诊疗详情
           </el-button>
-          <el-button link type="primary" size="small" @click="handleDelete">
+          <el-button type="primary" class="handle-button" size="small" @click="handleDelete">
             人员详情
           </el-button>
-          <el-button link type="primary" size="small" @click="handleDelete">
+          <el-button type="primary" class="handle-button" size="small" @click="handleDelete">
             删除
           </el-button>
         </template>
@@ -123,53 +124,54 @@
     />
 
     <el-dialog :title="textMap[dialogStatus]" v-model="dialogVisible">
-      <el-form
-          ref="dataForm"
-          :rules="rules"
-          :model="temp"
-          label-position="right"
-          label-width="110px"
-          style="width: 100%; margin-left:40px;margin-top: 40px"
-          >
-
-        <el-col span="12">
-        <el-form-item :label="'患者'" v-if="dialogStatus === 'appointment'" prop="patientId">
-          <el-select
-            v-model="temp.patientId"
-            clearable
-            class="form-item"
-            placeholder="患者">
-            <el-option
-              v-for="item in patientList"
-              :key="item.patientId"
-              :label="item.name"
-              :value="item.patientId"/>
-          </el-select>
-        </el-form-item>
-          <el-form-item :label="'MDT团队'" v-if="dialogStatus === 'appointment'" prop="mdtGroupId">
-          <el-select
-              v-model="temp.mdtGroupId"
-              clearable
-              class="form-item"
-              placeholder="MDT团队">
-            <el-option
-                v-for="item in mdtGroupList"
-                :key="item.mdtGroupId"
-                :label="item.name"
-                :value="item.mdtGroupId"/>
-          </el-select>
-          </el-form-item>
-          <el-form-item :label="'申请原因'" v-if="dialogStatus === 'appointment'" prop="appointmentReason">
-          <el-input
-            v-model="temp.appointmentReason"
-            placeholder="申请原因"
-            class="form-item"
-            type="textarea"/>
-          </el-form-item>
+      <div v-if="dialogStatus === 'appointment'">
+        <el-form
+            ref="dataForm"
+            :rules="rules"
+            :model="temp"
+            label-position="right"
+            label-width="110px"
+            style="width: 100%; margin-left:40px;margin-top: 40px"
+        >
+          <el-col span="12">
+            <el-form-item :label="'患者'" v-if="dialogStatus === 'appointment'" prop="patientId">
+              <el-select
+                  v-model="temp.patientId"
+                  clearable
+                  class="form-item"
+                  placeholder="患者">
+                <el-option
+                    v-for="item in patientList"
+                    :key="item.patientId"
+                    :label="item.name"
+                    :value="item.patientId"/>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="'MDT团队'" v-if="dialogStatus === 'appointment'" prop="mdtGroupId">
+              <el-select
+                  v-model="temp.mdtGroupId"
+                  clearable
+                  class="form-item"
+                  placeholder="MDT团队">
+                <el-option
+                    v-for="item in mdtGroupList"
+                    :key="item.mdtGroupId"
+                    :label="item.name"
+                    :value="item.mdtGroupId"/>
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="'申请原因'" v-if="dialogStatus === 'appointment'" prop="appointmentReason">
+              <el-input
+                  v-model="temp.appointmentReason"
+                  placeholder="申请原因"
+                  class="form-item"
+                  type="textarea"/>
+            </el-form-item>
           </el-col>
-      </el-form>
+        </el-form>
 
-      <span slot="footer" class="dialog-footer">
+
+        <span slot="footer" class="dialog-footer">
         <el-button v-if="dialogStatus === 'appointment'" type="primary" @click="handleAppointmentForm">
           确定
         </el-button>
@@ -177,6 +179,121 @@
           取消
         </el-button>
       </span>
+      </div>
+      <div v-if="dialogStatus === 'fileManage'">
+        <el-button
+            class="filter-item"
+            style="margin-left: 10px;"
+            type="primary"
+            @click="handleAddFile"
+        >
+          添加文件
+        </el-button>
+        <el-button
+            class="filter-item"
+            style="margin-left: 10px;"
+            type="primary"
+            @click="handleSynFile"
+        >
+          同步文件
+        </el-button>
+        <el-table
+            :data="fileList"
+            v-loading="listLoading"
+            style="width: 100%"
+            highlight-current-row
+        >
+          <el-table-column :label="'文件名称'" width="110" align="center">
+            <template v-slot:default="{row}">
+              <span>{{ row.fileName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'文件类型'" width="140" align="center">
+            <template v-slot:default="{row}">
+              <span>{{ row.fileType | fileTypeFilter}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'文件描述'">
+            <template v-slot:default="{row}">
+              <span>{{ row.fileDesc }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'操作'" fixed="right">
+
+          </el-table-column>
+        </el-table>
+      </div>
+      <div v-if="dialogStatus === 'addFile'">
+        <el-form
+            :rules="rules"
+            :model="temp"
+            label-position="right"
+        >
+          <el-form-item label="文件名称" prop="fileName">
+            <el-input
+                v-model="temp.fileName"
+                :placeholder="'文件名称'"
+            />
+          </el-form-item>
+          <el-form-item label="文件类型" prop="fileType">
+            <el-select
+                v-model="temp.fileType"
+                placeholder="文件类型"
+                clearable
+                filterable
+            >
+              <el-option v-for="item in fileTypeOptions" :key="item.code" :label="item.value" :value="item.code"/>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="文件描述" prop="fileDesc">
+            <el-input
+                v-model="temp.fileDesc"
+                :placeholder="'文件描述'"
+            />
+          </el-form-item>
+        </el-form>
+
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="handleCommitFile">
+            提交
+          </el-button>
+          <el-button @click="dialogStatus = 'fileManage'">
+            返回
+          </el-button>
+        </span>
+      </div>
+      <div v-if="dialogStatus === 'synFile'">
+        <el-table
+            :data="patientFileList"
+            v-loading="listLoading"
+            style="width: 100%"
+            highlight-current-row
+        >
+        <el-table-column :label="'文件名称'" width="110" align="center">
+          <template v-slot:default="{row}">
+            <span>{{ row.fileName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="'文件类型'" width="140" align="center">
+          <template v-slot:default="{row}">
+            <span>{{ row.fileType | fileTypeFilter}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="'文件描述'">
+          <template v-slot:default="{row}">
+            <span>{{ row.fileDesc }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="'操作'" fixed="right">
+          <el-button v-slot:default="{row}" v-if="row.isSyn === false" type="primary" @click="synOneFile(row)">
+            同步文件
+          </el-button>
+          <el-button v-slot:default="{row}" v-if="row.isSyn === true" type="primary" disabled>
+            已同步
+          </el-button>
+        </el-table-column>
+        </el-table>
+      </div>
     </el-dialog>
 
   </div>
@@ -212,5 +329,10 @@ export default MDTRecord
   color: #f56c6c;
   font-size: 12px;
   padding: 0 12px;
+}
+
+.handle-button {
+  margin-bottom: 5px;
+  width: 40%
 }
 </style>
