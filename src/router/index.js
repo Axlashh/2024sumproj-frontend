@@ -28,6 +28,12 @@ const routes = [
             component: () => import('@/views/sys/dict/Dict'),
             name: 'Dict',
             meta: { title: '字典管理', icon: 'dashboard', affix: true }
+          },
+          {
+            path: 'MDTmanage',
+            component: () => import('@/views/sys/MDTmanage/MDTmanage'),
+            name: 'MDTmanage',
+            meta: { title: 'MDT管理', icon: 'dashboard', affix: true }
           }
         ]
       },
