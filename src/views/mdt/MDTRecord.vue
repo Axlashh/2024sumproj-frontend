@@ -108,7 +108,10 @@
           <el-button type="primary" class="handle-button" size="small" @click="handleDelete">
             人员详情
           </el-button>
-          <el-button type="primary" class="handle-button" size="small" @click="handleDelete">
+          <el-button type="primary" class="handle-button" size="small" @click="handleMeetingAppointment(row,$index)">
+            会议预约
+          </el-button>
+          <el-button type="danger" class="handle-button" size="small" @click="handleDelete">
             删除
           </el-button>
         </template>
@@ -293,6 +296,66 @@
           </el-button>
         </el-table-column>
         </el-table>
+      </div>
+      <div v-if="dialogStatus === 'meetingAppointment'">
+        <el-form
+            ref="dataForm"
+            :rules="rules"
+            :model="temp"
+            label-position="right"
+            label-width="110px"
+            style="width: 100%; margin-left:10px;margin-top: 40px"
+        >
+          <el-form-item label="预约状态">
+            <el-text v-if="appointment" class="mx-1">可预约</el-text>
+            <el-text v-if="!appointment" class="mx-1">不可预约，有已预约的会议仍未结束</el-text>
+          </el-form-item>
+          <el-form-item v-if="appointment === true" label="预约时间">
+            <el-date-picker
+                v-model="appointmentTimeLimit"
+                type="datetimerange"
+                value-format="YYYY-MM-DD hh:mm:ss"
+                range-separator="至"
+                start-placeholder="预约开始日期"
+                end-placeholder="预约结束日期"
+            />
+          </el-form-item>
+        </el-form>
+        <el-table
+            :data="mdtMeetingList"
+            v-loading="listLoading"
+            style="width: 100%"
+            highlight-current-row
+            >
+          <el-table-column :label="'会议开始时间'" width="140" align="center">
+            <template v-slot:default="{row}">
+              <span>{{ row.startTime}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'会议结束时间'" width="140" align="center">
+            <template v-slot:default="{row}">
+              <span>{{ row.endTime}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'会议记录'" width="140" align="center">
+            <template v-slot:default="{row}">
+              <span>{{ row.meetingMinutes }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'疗效反馈'" width="140" align="center">
+            <template v-slot:default="{row}">
+              <span>{{ row.treatmentFeedback }}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <span slot="footer" class="dialog-footer">
+          <el-button v-if="appointment" type="primary" @click="handleMeetingTimeAppointment">
+            预约
+          </el-button>
+          <el-button @click="dialogVisible = false">
+            返回
+          </el-button>
+        </span>
       </div>
     </el-dialog>
 

@@ -54,3 +54,19 @@ export function synOneFile(data) {
         data
     })
 }
+
+export function getMdtMeetingList(data) {
+    return request({
+        url:'mdtMeeting/getMdtMeetingList',
+        method:'post',
+        data
+    })
+}
+
+export function meetingTimeCommit(data) {
+    return request({
+        url:'mdtMeeting/meetingTimeCommit',
+        method:'post',
+        params: data
+    })
+}

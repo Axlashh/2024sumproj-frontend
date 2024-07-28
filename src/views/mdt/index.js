@@ -4,9 +4,9 @@ import {
     appointmentApply,
     commitFile,
     getFileList,
-    getMdtGroupList,
+    getMdtGroupList, getMdtMeetingList,
     getMdtRecordList,
-    getPatientFile,
+    getPatientFile, meetingTimeCommit,
     synOneFile
 } from "@/api/mdt";
 import {ElMessage, FormRules} from "element-plus";
@@ -18,6 +18,9 @@ export default {
     filters: {
         fileTypeFilter(type) {
             return this.fileTypeOptions[type] || 'Unknown File Type';
+        },
+        timeFilter(dateTime) {
+            return "¥" + dateTime.toString();
         }
     },
     data(){
@@ -27,6 +30,7 @@ export default {
             typeValue:'',
             tableData: [],
             timeLimit: null,
+            appointmentTimeLimit: null,
             loading: false,
             total: null,
             pageIndex: null,
@@ -54,6 +58,7 @@ export default {
                 appointment: 'MDT申请',
                 fileManage: '资料管理',
                 addFile: '添加文件',
+                meetingAppointment: '会议预约',
             },
             rules: FormRules = {
                 patientId: [{
@@ -67,7 +72,9 @@ export default {
             fileList: [],
             fileTypeOptions: [],
             patientFileList: [],
+            mdtMeetingList: [],
             tempRow: null,
+            appointment: false,
             type:[
                 {label:'无',value:1},
             ],
@@ -174,6 +181,25 @@ export default {
                     this.dialogVisible = false
                     ElMessage({
                         message: '文件提交成功'
+                    })
+                }
+            })
+        },
+        handleMeetingAppointment(row) {
+            this.dialogVisible = true
+            this.dialogStatus = 'meetingAppointment'
+            this.tempRow = Object.assign({}, row)
+            getMdtMeetingList({mdtRecordId: row.mdtRecordId}).then(res => {
+                this.mdtMeetingList = res.data.mdtMeetingList
+                this.appointment = res.data.appointment
+            })
+        },
+        handleMeetingTimeAppointment() {
+            meetingTimeCommit({startTime: this.appointmentTimeLimit[0], endTime: this.appointmentTimeLimit[1], mdtRecordId: this.tempRow.mdtRecordId}).then(res => {
+                if (res.code === 20000) {
+                    this.dialogVisible = false
+                    ElMessage({
+                        message: '会议预约成功'
                     })
                 }
             })
