@@ -41,6 +41,18 @@ const routes = [
             name: 'Role',
             meta: { title: '角色管理', icon: 'dashboard', affix: true }
           },
+          {
+            path: 'dept',
+            component: () => import('@/views/sys/dept/dept'),
+            name: 'Dept',
+            meta: { title: '部门管理', icon: 'dashboard', affix: true }
+          },
+          {
+            path: 'user',
+            component: () => import('@/views/sys/User/User'),
+            name: 'User',
+            meta: { title: '用户管理', icon: 'dashboard', affix: true }
+          },
         ]
       },
       {
@@ -50,7 +62,13 @@ const routes = [
             path: 'mdtRecord',
             component:() => import('@/views/mdt/MDTRecord'),
             meta: { title: 'MDT管理', icon: 'dashboard', affix: true }
-          }
+          },
+          {
+            path: 'mdtGroup',
+            component: () => import('@/views/sys/MdtGroup/MdtGroup'),
+            name: 'MdtGroup',
+            meta: { title: 'mdt团队管理', icon: 'dashboard', affix: true }
+          },
         ]
       }
     ]

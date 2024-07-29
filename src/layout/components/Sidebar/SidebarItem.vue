@@ -26,7 +26,6 @@
 
 <script>
 import Item from './Item'
-import path from "path";
 
 export default {
   name: 'SidebarItem',
@@ -71,11 +70,11 @@ export default {
 
       console.log("showing", showingChildren)
 
-      // When there is only one child router, the child router is displayed by default
-      if (showingChildren.length === 1) {
-        console.log(3)
-        return true
-      }
+      // // When there is only one child router, the child router is displayed by default
+      // if (showingChildren.length === 1) {
+      //   console.log(3)
+      //   return true
+      // }
 
       // Show parent if there are no child router to display
       if (showingChildren.length === 0) {

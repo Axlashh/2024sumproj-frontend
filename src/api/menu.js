@@ -32,3 +32,10 @@ export function updateMenu(data) {
         data
     })
 }
+
+export function getMenuTree() {
+    return request({
+        url: '/menu/tree',
+        method: 'get'
+    })
+}

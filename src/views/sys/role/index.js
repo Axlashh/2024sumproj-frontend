@@ -2,6 +2,8 @@ import { resetPassword } from '@/api/login'
 import {addDict, deleteDict, getDictList} from "@/api/dict";
 import Pagination from "@/components/Pagination/index.vue";
 import {FormRules} from "element-plus";
+import {getMenuTree} from "@/api/menu";
+import {getCheckedMenuIds, getRoleList} from "@/api/role";
 
 export default {
     components: {Pagination},
@@ -16,7 +18,7 @@ export default {
             pageIndex: null,
             pageSize: null,
             total: null,
-            dictionaryList: [],
+            roleList: null,
             listQuery: {
                 page: 1,
                 limit: 20,
@@ -24,30 +26,17 @@ export default {
             dialogVisible: false,
             dialogStatus: '',
             textMap: {
-                addDict: '添加字典值'
+                editRole: '编辑角色'
             },
             temp: {
                 value: null,
             },
             rules: FormRules = {
-                value: [{
-                    required: true,
-                    message: '请选择患者',
-                    trigger: 'blur'
-                }],
-                code: [{
-                    required: true,
-                    message: '请选择患者',
-                    trigger: 'blur'
-                }],
-                type: [{
-                    required: true,
-                    message: '请选择患者',
-                    trigger: 'blur'
-                }],
             },
-            }
-        },
+            menuListTree: null,
+            checkedMenuIds: [],
+        }
+    },
 
     methods:{
         handleDelete(row){
@@ -55,40 +44,45 @@ export default {
                 this.getList()
             })
         },
-        handleEdit(){
+        handleEdit(row){
+            this.dialogVisible = true
+            this.dialogStatus = 'editRole'
+            getCheckedMenuIds(row).then(res => {
+                this.checkedMenuIds = res.data
+            })
+            this.temp = Object.assign({}, row)
 
         },
         handleSearch(){
-            getDictList(this.listQuery).then(res => {
-                this.dictionaryList = res.data.list
-                this.total = parseInt(res.data.total)
-                this.pageIndex = parseInt(res.data.page)
-                this.pageSize = parseInt(res.data.limit)
-            })
+            this.getList()
         },
         handleCreate(){
             this.dialogVisible = true
-            this.dialogStatus = 'addDict'
+            this.dialogStatus = 'addRole'
         },
         handleCommit() {
-            addDict(this.temp).then(res => {
-                if (res.code === 20000) {
-                    this.dialogVisible = false
-                    this.getList()
-                }
-            })
+        },
+        handleCheckChange(data, checkData) {
+            var roleIds = this.$refs.tree.getCheckedKeys()
+            this.temp.roleIdList = roleIds
+            console.log(this.temp.roleIdList)
         },
         getList() {
-            getDictList(this.listQuery).then(res => {
-                this.dictionaryList = res.data.list
-                this.total = parseInt(res.data.total)
-                this.pageIndex = parseInt(res.data.page)
-                this.pageSize = parseInt(res.data.limit)
+            getRoleList(this.listQuery).then(res => {
+                this.roleList = res.data.list
+                console.log(this.roleList)
+            })
+        },
+        getMenuTree() {
+            getMenuTree().then(res => {
+                this.menuListTree = res.data
             })
         }
+
 
     },
     created() {
         this.getList()
+        this.getMenuTree()
     }
 }
