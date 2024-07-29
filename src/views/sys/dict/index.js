@@ -1,6 +1,10 @@
 import { resetPassword } from '@/api/login'
+import {addDict, deleteDict, getDictList} from "@/api/dict";
+import Pagination from "@/components/Pagination/index.vue";
+import {FormRules} from "element-plus";
 
 export default {
+    components: {Pagination},
     data(){
         return{
             input:'',
@@ -9,56 +13,82 @@ export default {
             type:[
                 {label:'无',value:1},
             ],
-                tableData : [
-                    {
-                        id: '序号',
-                        value: '字典值',
-                        name: '字典名称',
-                        type: '字典类型',
-                        key: '键',
-                        number: '排序',
-                    },
-                    {
-                        id: '1',
-                        value: 'XX',
-                        name: 'XX',
-                        type: 'XX',
-                        key: 'XX',
-                        number: 'XX',
-                    },
-                    {
-                        id: '2',
-                        value: 'XX',
-                        name: 'XX',
-                        type: 'XX',
-                        key: 'XX',
-                        number: 'XX',
-                    },
-                    {
-                        id: '3',
-                        value: 'XX',
-                        name: 'XX',
-                        type: 'XX',
-                        key: 'XX',
-                        number: 'XX',
-                    },
-                ]
+            pageIndex: null,
+            pageSize: null,
+            total: null,
+            dictionaryList: [],
+            listQuery: {
+                page: 1,
+                limit: 20,
+                },
+            dialogVisible: false,
+            dialogStatus: '',
+            textMap: {
+                addDict: '添加字典值'
+            },
+            temp: {
+                value: null,
+            },
+            rules: FormRules = {
+                value: [{
+                    required: true,
+                    message: '请选择患者',
+                    trigger: 'blur'
+                }],
+                code: [{
+                    required: true,
+                    message: '请选择患者',
+                    trigger: 'blur'
+                }],
+                type: [{
+                    required: true,
+                    message: '请选择患者',
+                    trigger: 'blur'
+                }],
+            },
             }
         },
 
     methods:{
-        handleDelete(){
-
+        handleDelete(row){
+            deleteDict({dictionaryId: row.dictionaryId}).then(res => {
+                this.getList()
+            })
         },
         handleEdit(){
 
         },
-        handleSerch(){
-
+        handleSearch(){
+            getDictList(this.listQuery).then(res => {
+                this.dictionaryList = res.data.list
+                this.total = parseInt(res.data.total)
+                this.pageIndex = parseInt(res.data.page)
+                this.pageSize = parseInt(res.data.limit)
+            })
         },
-        handleCreat(){
-
+        handleCreate(){
+            this.dialogVisible = true
+            this.dialogStatus = 'addDict'
         },
+        handleCommit() {
+            addDict(this.temp).then(res => {
+                if (res.code === 20000) {
+                    this.dialogVisible = false
+                    this.getList()
+                }
+            })
+        },
+        getList() {
+            getDictList(this.listQuery).then(res => {
+                this.dictionaryList = res.data.list
+                this.total = parseInt(res.data.total)
+                this.pageIndex = parseInt(res.data.page)
+                this.pageSize = parseInt(res.data.limit)
+            })
+        }
 
+    },
+    created() {
+        this.getList()
     }
 }
