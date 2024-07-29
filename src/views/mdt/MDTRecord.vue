@@ -339,12 +339,12 @@
           </el-table-column>
           <el-table-column :label="'会议记录'" width="140" align="center">
             <template v-slot:default="{row}">
-              <span>{{ row.meetingMinutes }}</span>
+              <span>{{ row.meetingMinutes ? row.meetingMinutes : '无' }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="'疗效反馈'" width="140" align="center">
             <template v-slot:default="{row}">
-              <span>{{ row.treatmentFeedback }}</span>
+              <span>{{ row.treatmentFeedback ? row.treatmentFeedback : '无' }}</span>
             </template>
           </el-table-column>
         </el-table>

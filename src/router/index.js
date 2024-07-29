@@ -30,11 +30,17 @@ const routes = [
             meta: { title: '字典管理', icon: 'dashboard', affix: true }
           },
           {
-            path: 'MDTmanage',
-            component: () => import('@/views/sys/MDTmanage/MDTmanage'),
-            name: 'MDTmanage',
-            meta: { title: 'MDT管理', icon: 'dashboard', affix: true }
-          }
+            path: 'menu',
+            component: () => import('@/views/sys/menu/Menu'),
+            name: 'Menu',
+            meta: { title: '菜单管理', icon: 'dashboard', affix: true }
+          },
+          {
+            path: 'role',
+            component: () => import('@/views/sys/role/Role'),
+            name: 'Role',
+            meta: { title: '角色管理', icon: 'dashboard', affix: true }
+          },
         ]
       },
       {
@@ -72,7 +78,6 @@ router.beforeEach(async (to, from, next) => {
     }
     if (store.getters.permission_routes == null || store.getters.permission_routes.length === 0) {
       const accessRoutes = await store.dispatch('permission/generateRoutes')
-      console.log("dsasdaasdsaasdasdsad", accessRoutes)
     }
     console.log(store.getters.permission_routes)
     next()

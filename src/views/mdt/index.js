@@ -12,6 +12,18 @@ import {
 import {ElMessage, FormRules} from "element-plus";
 import {getPatientList} from "@/api/user";
 
+function formatDate(date) {
+    if (!(date instanceof Date) || isNaN(date.getTime())) return '';
+
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // 月份是从0开始的，所以要加1
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    return `${year}年${month}月${day}日${hours}时${minutes}分`;
+}
+
 export default {
     name:'HomeView',
     components: {Pagination},
@@ -190,7 +202,14 @@ export default {
             this.dialogStatus = 'meetingAppointment'
             this.tempRow = Object.assign({}, row)
             getMdtMeetingList({mdtRecordId: row.mdtRecordId}).then(res => {
-                this.mdtMeetingList = res.data.mdtMeetingList
+                this.mdtMeetingList = res.data.mdtMeetingList.map(item => {
+                    return {
+                        ...item,
+                        startTime: item.startTime ? formatDate(new Date(item.startTime)) : null,
+                        endTime: item.endTime ? formatDate(new Date(item.endTime)) : null
+                    };
+                });
+                console.log("asdsdaasdsda", this.mdtMeetingList[0])
                 this.appointment = res.data.appointment
             })
         },
@@ -209,5 +228,5 @@ export default {
         this.getRecordList()
         this.getPatientList()
         this.getMdtGroupList()
-    }
+    },
 }
